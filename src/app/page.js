@@ -125,17 +125,85 @@ const CoinRow = ({coin, i}) => {
 export default async function Home() {
     const coins = await getCoins()
     return (
-        <main className={'h-full overflow-x-scroll  flex flex-col w-full min-h-screen justify-center'}>
-            <table className={'w-full max-w-5xl overflow-x-scroll mx-auto shadow-lg mt-4'}>
-                <CoinsTableHead/>
-                <tbody>
-                {
-                    coins.data.coins.map((coin, i) => <CoinRow coin={coin} i={i} key={coin.uuid}/>)
-                }
+        <>
+            <div className={'w-full max-w-screen bg-zinc-800 overflow-x-hidden'}>
 
-                </tbody>
+                <div className={'min-w-0 w-screen lg:max-w-5xl mx-auto'}>
+                    <div className={'cursor-default whitespace-nowrap text-xs font-medium w-full'}>
+                        <div className={'overflow-x-hidden flex'}>
+                            <div className={'animate-running lg:animate-none'}>
+                                <div className="flex items-center h-10">
 
-            </table>
-        </main>
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize text-gray-300'}>Total Coins:</span> <span>{short(coins.data.stats.totalCoins)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize text-gray-300'}>Total Markets:</span> <span className={'font-bold'}>{short(coins.data.stats.totalMarkets)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize text-gray-300'}>Total Exchanges:</span> <span className={'font-bold'}>{short(coins.data.stats.totalExchanges)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize text-gray-300'}>Total Market Cap:</span> <span className={'font-bold'}>{short(coins.data.stats.totalMarketCap)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize text-gray-300'}>Total 24h Volume:</span> <span className={'font-bold'}>{short(coins.data.stats.total24hVolume)}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className={'animate-running lg:animate-none lg:hidden'}>
+                                <div className="flex items-center h-10">
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize'}>Total Coins:</span> <span>{short(coins.data.stats.totalCoins)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize'}>Total Markets:</span> <span>{short(coins.data.stats.totalMarkets)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize'}>Total Exchanges:</span> <span>{short(coins.data.stats.totalExchanges)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize'}>Total Market Cap:</span> <span>{short(coins.data.stats.totalMarketCap)}</span>
+                                    </div>
+
+                                    <div className={'mx-2 w-full'}>
+                                        <span className={'capitalize'}>Total 24h Volume:</span> <span>{short(coins.data.stats.total24hVolume)}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <main className={'h-full flex flex-col w-full min-h-screen justify-center max-w-screen lg:max-w-5xl mx-auto overflow-x-scroll'}>
+
+
+                <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-4'}>
+                    <CoinsTableHead/>
+                    <tbody>
+                    {
+                        coins.data.coins.map((coin, i) => <CoinRow coin={coin} i={i} key={coin.uuid}/>)
+                    }
+
+                    </tbody>
+
+                </table>
+            </main>
+
+        </>
     )
 }
