@@ -21,8 +21,8 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-
+  /*color: rgb(var(--foreground-rgb));*/
+  color:#fffafa;
 }
 .recharts-text.recharts-cartesian-axis-tick-value{
   display: none;
