@@ -23,7 +23,7 @@ export default function ChartLarge({data}) {
                 margin={{
                     top: 10,
                     right: 30,
-                    left: 30,
+                    left: 16,
                     bottom: 0,
 
                 }}

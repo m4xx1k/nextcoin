@@ -19,7 +19,7 @@ const Page = async ({params: {id}}) => {
     const {data} = await getData(id)
 
     return (
-		<main className='max-w-screen px-1 md:max-w-5xl mt-8 mx-auto'>
+		<main className='flex flex-col gap-4 max-w-screen px-1 md:max-w-5xl mt-8 mx-auto'>
 			<div className='w-full flex items-center justify-between flex-wrap px-2'>
 				<div className='flex items-center gap-4'>
 					<Image src={data.coin.iconUrl} width={64} height={64} alt={data.coin.name}/>
@@ -36,29 +36,35 @@ const Page = async ({params: {id}}) => {
 				<CoinLinks links={data.coin.links}/>
 
 			</div>
-		<div className='flex items-center gap-4 ml-4'>
-			<span className='text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price).toLocaleString()}</span>
-			<span className={`${data.coin.change>0 ? 'text-green-500' : 'text-red-500'}`}>
-				{data.coin.change>0 ?  '↑' : '↓'}{data.coin.change}%
-			</span>
-		</div>
-			<div className='w-fit flex items-center gap-4'>
-				<span className='font-bold text-lg'>24h Volume: </span>
-			<span className='text-blue-600 text-lg'>{Number(data.coin['24hVolume']).toLocaleString()} USDT</span>
-			</div>
-			<div className='w-fit flex items-center gap-4'>
-				<span className='font-bold text-lg'>Market Cap: </span>
-			<span className='text-blue-600 text-lg'>{Number(data.coin.marketCap).toLocaleString()} USDT</span>
-			</div>
-			<div className='w-fit flex items-center gap-4'>
-				<span className='font-bold text-lg'>Price: </span>
-			<span className='text-blue-600 text-lg'>{data.coin.price} USDT</span>
-			</div>
-            <p>{data.coin.description}</p>
 
-            <div className={'w-full h-[200px]'}>
-                <ChartLarge data={data.coin.sparkline}  symbol={data.coin.symbol}/>
-            </div>
+			<div className="flex items-center gap-8 w-full flex-wrap justify-center lg:justify-start">
+				<div className='flex items-center gap-4 ml-4'>
+					<span className='text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price).toLocaleString()}</span>
+					<span className={`${data.coin.change>0 ? 'text-green-500' : 'text-red-500'}`}>
+						{data.coin.change>0 ?  '↑' : '↓'}{data.coin.change}%
+					</span>
+				</div>
+				<div className='flex flex-col '>
+					<span className='text-gray-400 text-xs'>24h Volume: </span>
+					<span className='lg:text-lg font-bold'>{Number(data.coin['24hVolume']).toLocaleString()} USDT</span>
+				</div>
+				<div className='flex flex-col '>
+					<span className='text-gray-400 text-xs'>Market Cap: </span>
+					<span className='lg:text-lg font-bold'>{Number(data.coin['marketCap']).toLocaleString()} USDT</span>
+				</div>
+			</div>
+			<div className={'px-4'}>
+				<h2 className={'text-xl font-medium'}>Description: </h2>
+				<p className={'tracking-wider font-light'}>{data.coin.description}</p>
+
+			</div>
+			<div className={'px-4'}>
+				<h2 className={'text-xl font-medium mb-2'}>Chart:</h2>
+				<div className={'w-full h-[200px]'}>
+					<ChartLarge data={data.coin.sparkline}  symbol={data.coin.symbol}/>
+				</div>
+			</div>
+
 		</main>
 
 
