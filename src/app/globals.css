@@ -21,6 +21,10 @@
 }
 
 body {
-  /*color: rgb(var(--foreground-rgb));*/
-  color:#fffafa;
+ color:#212121;
+  background: #fffafa;
+}
+[data-theme="dark"] body{
+  background:#212121;
+  color: #fffafa;
 }

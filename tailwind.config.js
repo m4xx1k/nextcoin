@@ -5,6 +5,7 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode:['class'],
   theme: {
     extend: {
       backgroundImage: {
@@ -24,6 +25,10 @@ module.exports = {
       },
       animation:{
         'running':'translateX 16s linear infinite'
+      },
+      colors:{
+        light:'#fffafa',
+        dark:'#212121',
       }
     },
   },

@@ -29,7 +29,7 @@ const Page = async ({params: {id}}) => {
 							<h2 className={'text-sm text-gray-600 '}>{data.coin.symbol}</h2>
 						</div>
 						<div className='flex items-center gap-1'>
-							{data.coin.tags.map(tag=><div className='px-2 py-0.5 bg-gray-800 w-fit text-xs capitalize rounded-lg' key={tag}>{tag.replaceAll('-',' ')}</div>)}
+							{data.coin.tags.map(tag=><div className='px-2 py-0.5 bg-gray-300 dark:bg-gray-800 w-fit text-xs capitalize rounded-lg' key={tag}>{tag.replaceAll('-',' ')}</div>)}
 						</div>
 					</div>
 				</div>
@@ -39,7 +39,7 @@ const Page = async ({params: {id}}) => {
 
 			<div className="flex items-center gap-8 w-full flex-wrap justify-center lg:justify-start">
 				<div className='flex items-center gap-4 ml-4'>
-					<span className='text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price).toLocaleString()}</span>
+					<span className='text-gray-700 dark:text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price).toLocaleString()}</span>
 					<span className={`${data.coin.change>0 ? 'text-green-500' : 'text-red-500'}`}>
 						{data.coin.change>0 ?  '↑' : '↓'}{data.coin.change}%
 					</span>
