@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from "next/link";
 import {getLocalCoins} from "@/utils";
 import ChartSmall from "@/components/ChartSmall";
+import MainPageDescription from "@/components/MainPageDescription";
 
 const short = number => {
     if (number >= 1e12) {
@@ -70,8 +71,8 @@ const CoinRow = ({coin, i}) => {
                         <Image className={'z-0 overflow-auto'} alt={`coin ${coin.name}`} width={24} height={24}
                                src={coin.iconUrl}/>
                     </div>
-                    <div className={'flex flex-col'}>
-                        <span className={'text-xs font-light md:text-lg duration-300'}>{coin.name}</span>
+                    <div className={'flex flex-col  transition-colors duration-200 '}>
+                        <span className={'text-xs font-light md:text-lg'}>{coin.name}</span>
                         <span className={'text-xs text-gray-400'}>{coin.symbol}</span>
                     </div>
                 </Link>
@@ -200,18 +201,19 @@ export default async function Home() {
     return (
         <>
             <RunningLine coins={coins}/>
+            <MainPageDescription/>
             <main className={'h-full flex flex-col w-full min-h-screen justify-center max-w-screen lg:max-w-5xl mx-auto overflow-x-scroll'}>
 
 
                 <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-4'}>
                     <CoinsTableHead/>
-                    <tbody>
+                    <tbody className={'h-full responsive pb-8'}>
                     {
                         coins.data.coins.map((coin, i) => <CoinRow coin={coin} i={i} key={coin.uuid}/>)
                     }
 
-                    </tbody>
 
+                    </tbody>
                 </table>
             </main>
         </>
