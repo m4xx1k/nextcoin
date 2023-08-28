@@ -3,20 +3,10 @@ import ChartLarge from "@/components/ChartLarge";
 import Image from 'next/image'
 import Link from "next/link";
 import CoinLinks from '@/components/CoinLinks';
+import coinService from '@/services/coin'
 
-const getData = async id => {
-    const headers = new Headers()
-    headers.append('x-access-token', 'coinranking6a945e4fba09a8b24a410d03787b54f2ee68876e3f8197ea')
-    const req = new Request(`https://api.coinranking.com/v2/coin/${id}?timePeriod=24h`, {
-        method: "GET",
-        headers,
-    });
-    const res = await fetch(req)
-    if (!res.ok) throw new Error('Fail to fetch coins')
-    return res.json()
-}
 const Page = async ({params: {id}}) => {
-    const {data} = await getData(id)
+    const {data} = await coinService.getCoin(id)
 
     return (
 		<main className='flex flex-col gap-4 max-w-screen px-1 md:max-w-5xl mt-8 mx-auto'>

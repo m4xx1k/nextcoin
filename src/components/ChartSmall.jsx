@@ -17,7 +17,7 @@ export default function ChartSmall({data, isIncrease}) {
                 }}
                 width={120}
                 height={44}
-                data={data.map((e, i) => ({price: Number(e).toFixed(4), name: i}))}
+                data={data.map((e, i) => ({price: Number(e), name: i}))}
             >
                 <XAxis  dataKey="name"  axisLine={false}  tickLine={false} />
                 <YAxis domain={domain} dataKey={'price'}  axisLine={false} tickLine={false}/>
