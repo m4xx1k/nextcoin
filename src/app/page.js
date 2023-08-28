@@ -28,7 +28,8 @@ const date = timestamp => {
     return `${day}.${month}.${year}`;
 }
 
-export const CoinsTableHead = () => {
+
+export const SimpleCoinsTableHead = () => {
     return (
         <thead className={'sticky top-0 bg-zinc-200 dark:bg-zinc-900 font-light text-xs md:text-md'}>
         <tr className={''}>
@@ -210,7 +211,7 @@ export default async function Home() {
 
                 <h2 className={'sticky left-0 text-xl mt-4 font-medium'}>Best Coins</h2>
                 <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-1'}>
-                    <CoinsTableHead/>
+                    <SimpleCoinsTableHead/>
                     <tbody className={'h-full responsive pb-8'}>
                     {
                         stats.best.map((coin, i) => <CoinRow coin={coin} i={i} key={coin.uuid}/>)
@@ -221,7 +222,7 @@ export default async function Home() {
                 </table>
                 <h2 className={'sticky left-0 text-xl mt-4 font-medium'}>Newest Coins</h2>
                 <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-1'}>
-                    <CoinsTableHead/>
+                    <SimpleCoinsTableHead/>
                     <tbody className={'h-full responsive pb-8'}>
                     {
                         stats.newest.map((coin, i) => <CoinRow coin={coin} i={i} key={coin.uuid}/>)

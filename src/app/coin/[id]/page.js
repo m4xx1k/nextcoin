@@ -29,7 +29,7 @@ const Page = async ({params: {id}}) => {
 
 			<div className="flex items-center gap-8 w-full flex-wrap justify-center lg:justify-start">
 				<div className='flex items-center gap-4 ml-4'>
-					<span className='text-gray-700 dark:text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price).toLocaleString()}</span>
+					<span className='text-gray-700 dark:text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price)}</span>
 					<span className={`${data.coin.change>0 ? 'text-green-500' : 'text-red-500'}`}>
 						{data.coin.change>0 ?  '↑' : '↓'}{data.coin.change}%
 					</span>

@@ -19,7 +19,7 @@ export default function ChartLarge({data}) {
             <AreaChart
                 width={400}
                 height={200}
-                data={data.map((e, i) => ({price: Number(e).toFixed(6), name: toDate(data.length,i)}))}
+                data={data.map((e, i) => ({price: Number(e).toFixed(8), name: toDate(data.length,i)}))}
                 margin={{
                     top: 10,
                     right: 30,
