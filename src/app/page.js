@@ -60,7 +60,7 @@ export const CoinRow = ({coin, i}) => {
 
             <td className={'text-center px-2'}>
                 <Link href={`/coin/${coin.uuid}`}
-                      className={'flex items-center justify-center bg-gray-300 dark:bg-gray-700 w-6 h-6 rounded-lg text-xs text-dark dark:text-light'}>{i + 1}</Link>
+                      className={`flex items-center justify-center bg-gray-300 dark:bg-gray-700 ${i+1<1000 ? 'w-6':'w-fit px-0.5'}  h-6 rounded-lg text-xs text-dark dark:text-light`}>{i + 1}</Link>
 
             </td>
             <td className={'sticky left-0 z-0 py-2 px-4 transition-colors duration-500 min-w-[8rem] bg-light dark:bg-dark group-hover:bg-gray-300 dark:group-hover:bg-slate-700'}>
@@ -208,7 +208,7 @@ export default async function Home() {
             <main
                 className={'h-full flex flex-col w-full min-h-screen justify-center max-w-screen lg:max-w-5xl mx-auto overflow-x-scroll'}>
 
-                <h2 className={'text-xl mt-4 font-medium'}>Best Coins</h2>
+                <h2 className={'sticky left-0 text-xl mt-4 font-medium'}>Best Coins</h2>
                 <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-1'}>
                     <CoinsTableHead/>
                     <tbody className={'h-full responsive pb-8'}>
@@ -219,7 +219,7 @@ export default async function Home() {
 
                     </tbody>
                 </table>
-                <h2 className={'text-xl mt-4 font-medium'}>Newest Coins</h2>
+                <h2 className={'sticky left-0 text-xl mt-4 font-medium'}>Newest Coins</h2>
                 <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-1'}>
                     <CoinsTableHead/>
                     <tbody className={'h-full responsive pb-8'}>

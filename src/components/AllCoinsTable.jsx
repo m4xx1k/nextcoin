@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import coinService from '@/services/coin'
 import ReactPaginate from 'react-paginate';
 
-const limit = 100
+const limit = 50
 
 
 const AllCoinsTable = () => {
@@ -23,7 +23,7 @@ const AllCoinsTable = () => {
     if (!coins.length) return null
     return (
         <>
-            <h2 id={'allcoins'} className={'text-xl mt-4 font-medium'}>All Coins</h2>
+            <h2 id={'allcoins'} className={'sticky left-0 text-xl mt-4 font-medium'}>All Coins</h2>
 
             <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-1'}>
                 <CoinsTableHead/>
@@ -35,14 +35,16 @@ const AllCoinsTable = () => {
 
                 </tbody>
             </table>
-            <ReactPaginate breakLabel="..."
-                           nextLabel=">"
+            <ReactPaginate
                            onPageChange={(data) => setOffset(data.selected)}
-                           className={'sticky left-0 my-4 w-full flex items-center justify-center gap-1 md:gap-4'}
-                           pageClassName={' w-fit px-[6px] rounded-lg py-1 bg-zinc-700 text-xs md:text-md'}
+                           containerClassName={'sticky left-0 my-4 w-full flex items-center justify-center rounded-lg'}
+                           pageClassName={'w-fit border-x border-zinc-400 px-[6px] py-1 bg-zinc-700 text-xs md:text-md'}
+                           activeClassName={'w-fit px-3 py-0.5 rounded bg-blue-700 border-none text-md md:text-lg'}
                            pageRangeDisplayed={3}
                            pageCount={paginationLength}
-                           previousLabel="<"
+                           previousLabel={<div className={'w-fit rounded-l-md px-[6px] py-1 bg-zinc-700 text-xs md:text-md'}> {'<'} </div>}
+                           nextLabel={<div className={'w-fit rounded-r-md px-[6px] py-1 bg-zinc-700 text-xs md:text-md'}> {'>'} </div>}
+                           breakLabel={<div className={'w-fit px-[6px] py-1 bg-zinc-700 text-xs md:text-md'}> ... </div>}
                            renderOnZeroPageCount={null}/>
             {/*<Pagination paginationLength={paginationLength} offset={offset} onPageChange={setOffset}/>*/}
         </>
