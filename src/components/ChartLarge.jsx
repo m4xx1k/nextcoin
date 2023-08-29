@@ -1,5 +1,6 @@
 'use client'
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
+import {price} from "@/helpers/utils";
 const months = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
 //middle 5 percent
@@ -19,7 +20,7 @@ export default function ChartLarge({data}) {
             <AreaChart
                 width={400}
                 height={200}
-                data={data.map((e, i) => ({price: Number(e).toFixed(8), name: toDate(data.length,i)}))}
+                data={data.map((e, i) => ({price: price(e), name: toDate(data.length,i)}))}
                 margin={{
                     top: 10,
                     right: 30,
@@ -39,14 +40,14 @@ export default function ChartLarge({data}) {
 }
 const CustomTooltip=({active, payload, label})=>{
 	return (
-		<div className='text-xs p-2  bg-gray-600 rounded-lg'>
+		<div className='text-xs p-2 bg-gray-400  dark:bg-gray-600 rounded-lg'>
 			{/* {JSON.stringify(payload)} */}
 			<div className='flex items-center justify-between w-full gap-2'>
-				<span>Price: </span><span className='font-bold'>{payload[0]?.value} USDT</span>
+				<span>Price: </span><span className='font-bold text-light dark:text-dark'>{payload[0]?.value} USDT</span>
 			</div>
 
 			<div className='flex items-center justify-between w-full gap-2'>
-				<span>Date: </span><span className='font-bold'>{label}</span>
+				<span>Date: </span><span className='font-bold text-light dark:text-dark'>{label}</span>
 			</div>
 		</div>
 	)

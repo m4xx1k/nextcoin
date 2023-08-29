@@ -6,7 +6,6 @@ import ThemeModeToggle from "@/components/ThemeModeToggle";
 
 const Header = () => {
     const {data: session, status} = useSession()
-    console.log({session, status})
     return (
         <div className={'w-full bg-light dark:bg-dark'}>
             <div className={'h-16 w-full max-w-5xl mx-auto flex items-center justify-between px-2'}>

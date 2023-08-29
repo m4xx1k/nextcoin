@@ -1,9 +1,10 @@
 import React from 'react';
 import ChartLarge from "@/components/ChartLarge";
 import Image from 'next/image'
-import Link from "next/link";
 import CoinLinks from '@/components/CoinLinks';
 import coinService from '@/services/coin'
+import CoinPageLike from "@/components/CoinPageLike";
+import {price} from "@/helpers/utils";
 
 const Page = async ({params: {id}}) => {
     const {data} = await coinService.getCoin(id)
@@ -14,7 +15,8 @@ const Page = async ({params: {id}}) => {
 				<div className='flex items-center gap-4'>
 					<Image src={data.coin.iconUrl} width={64} height={64} alt={data.coin.name}/>
 					<div>
-						<div className='flex  gap-2'>
+						<div className='flex gap-2'>
+							<CoinPageLike coin={data.coin}/>
 							<h1 className={'text-2xl font-bold'}>{data.coin.name}</h1>
 							<h2 className={'text-sm text-gray-600 '}>{data.coin.symbol}</h2>
 						</div>
@@ -29,7 +31,7 @@ const Page = async ({params: {id}}) => {
 
 			<div className="flex items-center gap-8 w-full flex-wrap justify-center lg:justify-start">
 				<div className='flex items-center gap-4 ml-4'>
-					<span className='text-gray-700 dark:text-gray-300 text-3xl font-bold'>$ {Number(data.coin.price)}</span>
+					<span className='text-gray-700 dark:text-gray-300 text-3xl font-bold'>$ {price(data.coin.price)}</span>
 					<span className={`${data.coin.change>0 ? 'text-green-500' : 'text-red-500'}`}>
 						{data.coin.change>0 ?  '↑' : '↓'}{data.coin.change}%
 					</span>
