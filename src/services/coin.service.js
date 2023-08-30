@@ -1,12 +1,14 @@
 import firebase_app from "@/firebase";
 import {getFirestore, doc, setDoc, getDocs, query, where, collection, and, deleteDoc} from "firebase/firestore";
 import {v4 as uuidv4} from 'uuid';
+import {getLocalCoin, getLocalCoins} from '@/helpers/utils';
+import useSWR from 'swr'
 
 const db = getFirestore(firebase_app)
 const likedRef = collection(db, "like");
 
 
-const fetcher = async (url, params, method = 'GET', body, revalidate) => {
+const fetcher = async ({url, params = null, method = 'GET', body = null, revalidate = null}) => {
 
     const options = {}
     const headers = new Headers()
@@ -25,11 +27,24 @@ const fetcher = async (url, params, method = 'GET', body, revalidate) => {
 
 class CoinService {
     async getCoins(params) {
-        return await fetcher('coins', params)
+        const {data} =  await fetcher({url: 'coins', params})
+        return data
+    }
+
+    async useCoins(params) {
+        return  useSWR('coins', () => this.getCoins(params))
+    }
+
+    async getLocalCoins() {
+        return setTimeout(() => getLocalCoins(), 1000)
+    }
+
+    async getLocalCoin() {
+        return setTimeout(() => getLocalCoin(), 1000)
     }
 
     async getStats() {
-        const stats = await fetcher('stats')
+        const stats = await fetcher({url: 'stats'})
         const newest = []
         for (let coin of stats.data.newestCoins) {
             const data = await this.getCoin(coin.uuid)
@@ -44,7 +59,7 @@ class CoinService {
     }
 
     async getCoin(id, params) {
-        return await fetcher(`coin/${id}`, params)
+        return await fetcher({url: `coin/${id}`, params})
     }
 
     async getLikes(user) {
@@ -64,6 +79,13 @@ class CoinService {
 
         }
         return {result, error}
+
+    }
+
+    async getLocalLikes(user) {
+
+
+        return setTimeout(() => ({result: [{user: 'maxikfabin@gmail.com', coin: 'asdlkfj'}]}), 1500)
 
     }
 
@@ -122,4 +144,5 @@ class CoinService {
 
 }
 
-export default new CoinService();
+const coinService = new CoinService()
+export default coinService;

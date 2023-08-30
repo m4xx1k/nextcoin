@@ -2,7 +2,7 @@ import React from 'react';
 import ChartLarge from "@/components/ChartLarge";
 import Image from 'next/image'
 import CoinLinks from '@/components/CoinLinks';
-import coinService from '@/services/coin'
+import coinService from '@/services/coin.service'
 import CoinPageLike from "@/components/CoinPageLike";
 import {price} from "@/helpers/utils";
 

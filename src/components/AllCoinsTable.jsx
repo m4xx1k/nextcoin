@@ -1,11 +1,14 @@
 'use client'
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import coinService from '@/services/coin'
+import React, {lazy, Suspense, useCallback, useEffect, useRef, useState} from 'react';
+import coinService from '@/services/coin.service'
 import ReactPaginate from 'react-paginate';
-import CoinTableRow from "@/components/CoinTableRow";
 import {useSession} from "next-auth/react";
+import AllCoinsTableLoading, {CoinTableRowLoading} from './AllCoinsTableLoading';
+import useSWR from "swr";
 
-const limit = 50
+const CoinTableRow = lazy(() => import("@/components/CoinTableRow"));
+
+const limit = 30
 
 function useDebounce(callback, delay) {
     const timer = useRef();
@@ -57,41 +60,46 @@ const CoinsTableHead = ({sort, setSort}) => {
 }
 
 const AllCoinsTable = () => {
-    const {data: session} = useSession()
-    const [coins, setCoins] = useState([])
-    const [isLoadingCoins, setIsLoadingCoins] = useState(true)
+    const {data: session, status} = useSession()
     const [offset, setOffset] = useState(0)
-    const [paginationLength, setPaginationLength] = useState()
+    const [paginationLength, setPaginationLength] = useState(0)
     const [sort, setSort] = useState({orderBy: 'marketCap', orderDirection: 'desc'})
     const [search, setSearch] = useState('')
-    const [likes, setLikes] = useState([])
+    const [likes, setLikes] = useState(null)
     const [isLoadingLikes, setIsLoadingLikes] = useState(false)
-    const getCoins = async () => {
-        setIsLoadingCoins(true)
-        if (search) setOffset(0)
-        const {data} = await coinService.getCoins({offset: offset * limit, limit, search, ...sort})
+    const {data, isLoading, mutate} = useSWR('allcoins', () => coinService.getCoins({
+        offset: offset * limit,
+        limit,
+        search, ...sort
+    }), {
+        onSuccess: (data) => {
+            setPaginationLength(Math.ceil(data.stats.total / limit))
+        }
+    })
 
-        setCoins(data.coins)
-        setPaginationLength((data.stats.total / limit).toFixed(0))
-        setIsLoadingCoins(false)
-    }
     const getLikes = async () => {
-        if (session) {
+        if (status === 'authenticated' || status === 'unauthenticated') {
             setIsLoadingLikes(true)
-            const liked = await coinService.getLikes(session.user.email)
-            setLikes(!liked.error ? liked.result.map(like => like.coin) : [])
+            let likes = []
+            if (status === "authenticated" && session) {
+                const liked = await coinService.getLikes(session.user.email)
+                likes = liked.result.map(like => like.coin)
+            }
+            setLikes(likes)
             setIsLoadingLikes(false)
         }
     }
     const handleSearch = async () => {
-        if (search.length > 2 || !search.length) {
-            await getCoins()
-        }
+        if (search.length > 2 || search === '')
+            await mutate()
     }
-    const debouncedSearch = useDebounce(handleSearch, 500)
+
+    const debouncedSearch = useDebounce(handleSearch, 300)
     const onChangeSearch = async e => {
         setSearch(e.target.value)
     }
+
+
     useEffect(() => {
         const search = async () => {
             await debouncedSearch()
@@ -99,11 +107,12 @@ const AllCoinsTable = () => {
         search()
     }, [search])
     useEffect(() => {
-        getCoins()
+        mutate()
+
     }, [offset, sort])
     useEffect(() => {
         getLikes()
-    }, [session])
+    }, [status])
     return (
         <>
             <h2 id={'allcoins'} className={'sticky left-0 text-xl mt-4 font-medium'}>All Coins</h2>
@@ -111,17 +120,20 @@ const AllCoinsTable = () => {
                    className={'sticky left-1 w-3/4 md:w-1/2 outline-none border-none py-1 px-2 rounded-lg m-1 text-sm'}
                    placeholder={'Search ...'}/>
             {
-                coins.length && !isLoadingCoins && !isLoadingLikes ?
-
-
-                    <div>
+                data?.coins.length && (status === 'authenticated' || status === 'unauthenticated') ?
+                    <>
                         <table className={'w-full max-w-screen lg:max-w-5xl overflow-x-scroll shadow-lg mt-1'}>
                             <CoinsTableHead sort={sort} setSort={setSort}/>
                             <tbody className={'h-full responsive pb-8'}>
                             {
-                                coins.map((coin, i) => <CoinTableRow likes={likes} coin={coin}
-                                                                     i={i + Number(offset) * limit}
-                                                                     key={coin.uuid}/>)
+                                data.coins.map((coin, i) =>
+                                    <Suspense key={coin.uuid} fallback={<CoinTableRowLoading/>}>
+                                        <CoinTableRow likes={likes} showLikes={true}
+                                                      coin={coin}
+                                                      i={i + Number(offset) * limit}
+                                        />
+                                    </Suspense>
+                                )
                             }
                             </tbody>
                         </table>
@@ -139,9 +151,14 @@ const AllCoinsTable = () => {
                             breakLabel={<div
                                 className={'w-fit px-[6px] py-1 bg-zinc-400 dark:bg-zinc-600 text-xs md:text-md'}> ... </div>}
                             renderOnZeroPageCount={null}/>
-                    </div>
+                    </>
                     :
-                    <h2>Coins not found :/</h2>
+                    (
+                        isLoading || isLoadingLikes ?
+                            <AllCoinsTableLoading limit={30}/>
+                            : <h2>Coins not found :/</h2>
+                    )
+
             }
         </>
     );

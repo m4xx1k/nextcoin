@@ -4,11 +4,10 @@ import ChartSmall from "@/components/ChartSmall";
 import {date, price, short} from "@/helpers/utils";
 import TableLikeCell from "@/components/TableLikeCell";
 
-const CoinTableRow = ({coin, likes,i}) => {
-
+const CoinTableRow = ({coin, likes, showLikes,i}) => {
     return (
         <tr className={'group border-b border-gray-300  dark:border-gray-600 border-solid   cursor-pointer  transition-colors duration-500  dark:text-light text-dark hover:bg-gray-300 hover:rounded-lg dark:hover:bg-slate-700'}>
-            {Array.isArray(likes) && <TableLikeCell coin={coin} isLiked={likes.includes(coin.uuid)}/>}
+            {Array.isArray(likes) ? <TableLikeCell coin={coin} isLiked={likes.includes(coin.uuid)}/> :(showLikes && <td className={'opacity-0 p-4'}>🤍</td>)}
             <td className={'text-center px-2'}>
                 <Link href={`/coin/${coin.uuid}`}
                       className={`flex items-center justify-center bg-gray-300 dark:bg-gray-700 ${i + 1 < 1000 ? 'w-6' : 'w-fit px-0.5'}  h-6 rounded-lg text-xs text-dark dark:text-light`}>

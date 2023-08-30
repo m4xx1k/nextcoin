@@ -2,7 +2,7 @@
 import {useSession} from "next-auth/react";
 import {useTheme} from "next-themes";
 import {useEffect, useState} from "react";
-import coinService from "@/services/coin";
+import coinService from "@/services/coin.service";
 
 const useLike = ({isLiked: initialLiked = null, coin}) => {
     const {data: session} = useSession()

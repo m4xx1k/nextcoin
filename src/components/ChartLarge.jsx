@@ -3,7 +3,6 @@ import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContain
 import {price} from "@/helpers/utils";
 const months = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
-//middle 5 percent
 const toDate = (len,i)=>{
 	const now = new Date()
 	const date = new Date(now.getTime() - (len - i)*1000*60*60*24)
@@ -26,7 +25,6 @@ export default function ChartLarge({data}) {
                     right: 30,
                     left: 16,
                     bottom: 0,
-
                 }}
             >
                 <CartesianGrid color='#bbb' opacity={0.15} width={'0.5px'} vertical={false}/>

@@ -1,10 +1,8 @@
 import MainPageDescription from "@/components/MainPageDescription";
-import coinService from '@/services/coin'
+import coinService from '@/services/coin.service'
 import AllCoinsTable from "@/components/AllCoinsTable";
 import CoinTableRow from "@/components/CoinTableRow";
 import RunningLine from "@/components/RunningLine";
-
-
 
 
 export const SimpleCoinsTableHead = () => {
@@ -24,7 +22,6 @@ export const SimpleCoinsTableHead = () => {
         </thead>
     )
 }
-
 
 
 export default async function Home() {
