@@ -2,7 +2,6 @@ import firebase_app from "@/firebase";
 import {getFirestore, doc, setDoc, getDocs, query, where, collection, and, deleteDoc} from "firebase/firestore";
 import {v4 as uuidv4} from 'uuid';
 import {getLocalCoin, getLocalCoins} from '@/helpers/utils';
-import useSWR from 'swr'
 
 const db = getFirestore(firebase_app)
 const likedRef = collection(db, "like");
@@ -31,9 +30,7 @@ class CoinService {
         return data
     }
 
-    async useCoins(params) {
-        return  useSWR('coins', () => this.getCoins(params))
-    }
+
 
     async getLocalCoins() {
         return setTimeout(() => getLocalCoins(), 1000)
